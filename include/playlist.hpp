@@ -3,8 +3,9 @@
 #include <string>
 #include <vector>
 #include "musicFile.hpp"
+#include "shuffle.hpp"
 //head==>index=0
-//make_vector will feed to shuffle.hpp
+//make_shuffle will feed to shuffle.hpp
 
 // doubly circular linked list
 using namespace std;
@@ -31,11 +32,11 @@ class playlist: private song{
     private:
     song* head;
     int count=0;
+    vector<pair<string,string>> vec;
     public:
     playlist(): song(){
         this->head=NULL;
         musicFile mf;
-        vector<pair<string,string>> vec;
         vec=mf.read_music_files();
         for(auto i:vec){
             add_song(i);
@@ -126,6 +127,7 @@ class playlist: private song{
         }while (temp!= head);
         return 1;
     }
+    // unfinished function...DO NOT CALL
     int get_song_name(int index){
         if(index>=count || head==NULL){
             cout<<"nooo"<<endl;
@@ -144,11 +146,28 @@ class playlist: private song{
     int count_playlist(){
         return count;
     }
+
+    void make_shuffle(){
+        shuffle shuf(vec);
+        vec.clear();
+        vec=shuf.output();
+        for(int i=count;i>0;i--){
+            if(!remove_song(0)) break;
+        }
+        for(auto i:vec){
+            add_song(i);
+        }
+    }
+
 };
 /*
-
-    playlist p();
-    p.make_playlist();
+int main(){
+    playlist p;
     p.print();
-
+    cout<<"---------------1"<<endl;
+    p.make_shuffle();
+    p.print();
+    cout<<"---------------2"<<endl;
+    return 0;
+}
 */
