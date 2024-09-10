@@ -35,7 +35,9 @@ class playlist: private song{
     vector<pair<string,string>> vec;
     public:
     playlist(): song(){
+        cout<<"playlist  done"<<endl;
         this->head=NULL;
+        //remove this mf part
         musicFile mf;
         vec=mf.read_music_files();
         for(auto i:vec){

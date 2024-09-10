@@ -35,13 +35,14 @@ class Button{
     ~Button(){
         UnloadFont(font);
     }
-    void Draw(){
+    void Draw(void (*on_click)()){
         //checking hovering
         DrawRectangle(position.x,position.y,w,h,(isHovered(GetMousePosition()) ? BLACK : RAYWHITE));
         DrawTextEx(font,name.c_str(),position,h,0,(isHovered(GetMousePosition()) ? RED : YELLOW));
         if(isHovered(GetMousePosition())){
             if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
                 PlaySound(selectAsSound);
+                on_click();
             }
         }
     }

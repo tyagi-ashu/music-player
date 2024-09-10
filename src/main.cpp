@@ -1,6 +1,6 @@
 #include "raylib.h"
 #include <iostream>
-#include "button.hpp"
+#include "mainScrn.hpp"
 #include "playlist.hpp"
 int main(void){
 
@@ -9,18 +9,22 @@ int main(void){
     InitWindow(screenWidth, screenHeight, "Music Player");
     InitAudioDevice();
     SetTargetFPS(60);
-    Button playerButton("playerkjbjhbjhagsd",{350,150},32);
+    
     //to add all the music files and making playlist
     musicFile mf;
     mf.add_music_file();
-    //playlist automatically read files...so dont call read_file function
-    playlist p;
 
+    playlist p;
+    p.print();
+    p.make_shuffle();
+    p.print();
+
+    mainScrn m1;
     while (!WindowShouldClose())
     {
         BeginDrawing();
         ClearBackground(RAYWHITE);
-        playerButton.Draw();
+        m1.render();
         EndDrawing();
     }
     CloseAudioDevice();

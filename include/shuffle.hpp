@@ -7,7 +7,7 @@
 #include <cstdlib>    //rand
 #include <cmath>     //round
 //code is messy because i didnt clean up after main() function to struct conversion
-
+//replaced int with size_t where needed
 using namespace std;
 
 //https://keyj.emphy.de/balanced-shuffle/
@@ -23,11 +23,11 @@ typedef struct shuffle{
     int total_songs;
     shuffle(vector<pair<string,string>> vec){
         songs=vec;
-        for(int i=0;i<songs.size();i++){
+        for(size_t i=0;i<songs.size();i++){
             map[songs[i].first].push_back(songs[i].second);
         }
         artist_count=map.size();
-        for(int i=0;i<songs.size();i++){
+        for(size_t i=0;i<songs.size();i++){
             map2[songs[i].second]=songs[i].first;
         }
         total_songs=songs.size();
@@ -56,6 +56,9 @@ typedef struct shuffle{
     }
 
     vector<pair<string,string>> output(){
+        if(!songs.size()){
+            return {};
+        }
         int max_n=0;   //max number of songs with an artist
         for(auto i:map){
             int n=i.second.size();
@@ -76,13 +79,12 @@ typedef struct shuffle{
             randomize1(i);
             int flag=1;
             if(i.size()<max_n-i.size()) flag=0;
-            int k=min(i.size(),max_n-i.size());
-            if(k==0)    //for no blanks
+            if(min(i.size(),max_n-i.size())==0)    //for no blanks
                 group[group_index++]=i;
             int n=max_n;
-            int i_index=0;
+            size_t i_index=0;
             vector<string> temp_i;
-            for(k;k>0;k--){
+            for(int k=min(i.size(),max_n-i.size());k>0;k--){
                 float r=n/k;
                 //bringing -10% deviation in r
                 r=round(r-(10.0*r/100));
@@ -134,7 +136,7 @@ typedef struct shuffle{
                 temp[0]=temp[temp.size()-1];
                 temp[temp.size()-1]=p_temp;
             }
-            for(int k=0;k<temp.size();k++){
+            for(size_t k=0;k<temp.size();k++){
                 shuff_songs[index++]=temp[k];
             }
             temp.clear();
