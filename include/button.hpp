@@ -23,11 +23,11 @@ class Button{
     public:
     Button(std::string n,Vector2 pos,float fh){
         //font height=fh
-        name=n;
-        position=pos;
-        font = LoadFontEx("../resources/my-font.ttf",fh,NULL,0);
-        w=MeasureTextEx(font,name.c_str(),fh,0).x;
-        h=fh;
+        this->name=n;
+        this->position=pos;
+        this->font = LoadFontEx("../resources/my-font.ttf",fh,NULL,0);
+        this->w=MeasureTextEx(font,name.c_str(),fh,0).x;
+        this->h=fh;
         Wave selectSound=LoadWave("../resources/button-pressed.wav");
         selectAsSound=LoadSoundFromWave(selectSound);
         UnloadWave(selectSound);

@@ -1,26 +1,27 @@
 #pragma once
 #include "screen.hpp"
-class mainScrn:public screen{
+
+class playScrn:public screen{
     private:
     //Texture2D texture;
     //needed the pointer because font wasnt loading properly
-    Button *mainButton;
+    Button *playerButton;
     public:
-    mainScrn(){
+    playScrn(){
         //texture=LoadTexture("../resources/title.png");
         //its not in render() so that it dosent render again and again and again
-        mainButton = new Button("main",{400,100},32);
+        playerButton = new Button("playlist",{400,100},32);
     }
-    ~mainScrn(){
-        delete mainButton;
+    ~playScrn(){
+        delete playerButton;
         //UnloadTexture(texture);
     }
-    //static function passed for error "void (mainScrn::*)()" is incompatible with parameter of type "void (*)()"
+    //static-- to access this function when there is no instance of this class and 'draw' is called 
     static void backButton(){
         std::cout<<"hello"<<std::endl;
     }
     void display(){
         //DrawTextureV(texture,{0,0},RAYWHITE);
-        mainButton->Draw(backButton);
+        playerButton->Draw(backButton);
     }
 };
