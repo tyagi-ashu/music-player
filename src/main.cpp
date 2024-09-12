@@ -1,10 +1,9 @@
 #include "raylib.h"
 #include "playlist.hpp"
-#include "screen.hpp"
-#include "button.hpp"
 #include "logoScrn.hpp"
-#include "mainScrn.hpp"
-#include "playScrn.hpp"
+#include "scrnManager.hpp"
+#include "screen.hpp"
+
 int main(void){
 
     const int screenWidth = 800;
@@ -17,12 +16,15 @@ int main(void){
     musicFile mf;
     mf.add_music_file();
     playlist p;
-    screen *s=new logoScrn;
+    logoScrn *l = new logoScrn();
+    ScrnManager::LoadScrn(l);
     while (!WindowShouldClose())
     {
-        s->display();
         BeginDrawing();
         ClearBackground(RAYWHITE);
+        if(ScrnManager::ScrnLoaded()){
+            ScrnManager::Update();
+        }
         EndDrawing();
     }
     CloseAudioDevice();

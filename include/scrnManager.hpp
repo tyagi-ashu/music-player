@@ -1,5 +1,4 @@
 #pragma once
-
 #include "screen.hpp"
 
 class ScrnManager

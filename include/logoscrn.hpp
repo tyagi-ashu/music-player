@@ -1,26 +1,34 @@
 #pragma once
+#include "logoScrn.hpp"
+#include "mainScrn.hpp"
 #include "screen.hpp"
-class logoScrn:public screen{
+#include "scrnManager.hpp"
+#include "button.hpp"
+class logoScrn: public screen{
     private:
     Texture2D texture;
     //needed the pointer because font wasnt loading properly
-    Button *logoButton;
+    Button *mainButton;
     public:
     logoScrn(){
         texture=LoadTexture("../resources/title.png");
         //its not in render() so that it dosent render again and again and again
-        logoButton = new Button("logo",{400,100},32);
+        mainButton = new Button("logo",{400,100},32);
     }
     ~logoScrn(){
-        delete logoButton;
+        delete mainButton;
         UnloadTexture(texture);
     }
     //static function passed for error "void (mainScrn::*)()" is incompatible with parameter of type "void (*)()"
-    static void nextButton(){
+    static void mainButtonFunc(){
+        mainScrn *ms;
+        ms= new mainScrn();
+        ScrnManager::LoadScrn(ms);
         std::cout<<"hello"<<std::endl;
     }
     void display(){
+
         DrawTextureV(texture,{0,0},RAYWHITE);
-        logoButton->Draw(nextButton);
+        mainButton->Draw(mainButtonFunc);
     }
 };
