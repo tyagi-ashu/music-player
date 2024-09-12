@@ -9,3 +9,11 @@ class screen{
     virtual ~screen(){};    
     virtual void display(){};
 };
+enum class screens{
+    logoscrn,
+    mainscrn,
+    playscrn,
+    null
+};
+
+screens s;

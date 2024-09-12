@@ -2,7 +2,6 @@
 #include "playScrn.hpp"
 #include "mainScrn.hpp"
 #include "screen.hpp"
-#include "scrnManager.hpp"
 #include "button.hpp"
 
 class playScrn:public screen{
@@ -21,9 +20,7 @@ class playScrn:public screen{
     }
     //static-- to access this function when there is no instance of this class and 'draw' is called 
     static void mainButtonFunc1(){
-        mainScrn *ms1;
-        ms1= new mainScrn();
-        ScrnManager::LoadScrn(ms1);
+        s=screens::mainscrn;
         std::cout<<"hello"<<std::endl;
     }
     void display(){

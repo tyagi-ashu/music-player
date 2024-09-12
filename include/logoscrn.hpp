@@ -2,7 +2,6 @@
 #include "logoScrn.hpp"
 #include "mainScrn.hpp"
 #include "screen.hpp"
-#include "scrnManager.hpp"
 #include "button.hpp"
 class logoScrn: public screen{
     private:
@@ -21,9 +20,7 @@ class logoScrn: public screen{
     }
     //static function passed for error "void (mainScrn::*)()" is incompatible with parameter of type "void (*)()"
     static void mainButtonFunc(){
-        mainScrn *ms;
-        ms= new mainScrn();
-        ScrnManager::LoadScrn(ms);
+        s=screens::mainscrn;
         std::cout<<"hello"<<std::endl;
     }
     void display(){

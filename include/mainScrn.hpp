@@ -2,7 +2,6 @@
 #include "playScrn.hpp"
 #include "mainScrn.hpp"
 #include "screen.hpp"
-#include "scrnManager.hpp"
 #include "button.hpp"
 class mainScrn:public screen{
     private:
@@ -21,9 +20,7 @@ class mainScrn:public screen{
     }
     //static function passed for error "void (mainScrn::*)()" is incompatible with parameter of type "void (*)()"
     static void playButtonFunc(){
-        playScrn *ps;
-        ps= new playScrn();
-        ScrnManager::LoadScrn(ps);
+        s=screens::playscrn;
         std::cout<<"hello"<<std::endl;
     }
     void display(){
