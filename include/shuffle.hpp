@@ -86,10 +86,8 @@ typedef struct shuffle{
             vector<string> temp_i;
             for(int k=min(i.size(),max_n-i.size());k>0;k--){
                 float r=n/k;
-                //bringing -10% deviation in r
-                r=round(r-(10.0*r/100));
-                if(r>n-k+1) r=n-k+1;
 
+                if(r>n-k+1) r=n-k+1;
                 if(flag==0){
                     if(i.size()>i_index)
                         temp_i.push_back(i[i_index++]);

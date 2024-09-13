@@ -3,16 +3,20 @@
 #include "mainScrn.hpp"
 #include "screen.hpp"
 #include "button.hpp"
+//remove button and add welcome fadeing text and a timer to go to main screen
 class logoScrn: public screen{
     private:
     Texture2D texture;
     //needed the pointer because font wasnt loading properly
     Button *mainButton;
+    Font font;
+    int font_height=24;
     public:
     logoScrn(){
         texture=LoadTexture("../resources/title.png");
+        font=LoadFontEx("../resources/my-font.ttf",font_height,NULL,0);
         //its not in render() so that it dosent render again and again and again
-        mainButton = new Button("logo",{400,100},32);
+        mainButton = new Button("LOGO",{400,100},font_height,font);
     }
     ~logoScrn(){
         delete mainButton;

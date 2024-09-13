@@ -9,10 +9,10 @@ using namespace std;
 //using struct to reduce memory footprint 
 //and there is no need for polymorphism or inheritance in this code
 typedef struct musicFile{
-    fstream myfile;
-    string path = "../resources/music";
+    inline static const string path = "../resources/music";
 
-    void add_music_file(){
+    static void add_music_file(){
+        fstream myfile;
         myfile.open("../resources/records.csv",ios::out | ios::trunc);
         if(myfile.good()){
             for (const auto & i : filesystem::directory_iterator(path)){
@@ -29,7 +29,8 @@ typedef struct musicFile{
         }
     }
 
-    vector<pair<string,string>> read_music_files(){
+    static vector<pair<string,string>> read_music_files(){
+        fstream myfile;
         vector<pair<string,string>> vec;
         vec.clear();
         myfile.open("../resources/records.csv",ios::in);
@@ -49,16 +50,3 @@ typedef struct musicFile{
         return vec;
     }
 }musicFile;
-/*
-int main()
-{
-    musicFile mf;
-    mf.add_music_file();
-    vector<pair<string,string>> vec;
-    vec=mf.read_music_files();
-    for(auto i:vec){
-        cout<<i.first<<"  "<<i.second<<endl;
-    }
-    return 0;
-}
-*/

@@ -31,15 +31,17 @@ class song{
 class playlist: private song{
     private:
     song* head;
-    int count=0;
-    vector<pair<string,string>> vec;
+
     public:
+    int count=0;
+    float fontSize=24;
+    vector<pair<string,string>> vec;
+
     playlist(): song(){
         cout<<"playlist  done"<<endl;
         this->head=NULL;
         //remove this mf part
-        musicFile mf;
-        vec=mf.read_music_files();
+        vec=musicFile::read_music_files();
         for(auto i:vec){
             add_song(i);
         }
@@ -145,10 +147,6 @@ class playlist: private song{
         cout<<temp->p.second<<endl;
         return 1;
     }
-    int count_playlist(){
-        return count;
-    }
-
     void make_shuffle(){
         shuffle shuf(vec);
         vec.clear();
@@ -160,16 +158,4 @@ class playlist: private song{
             add_song(i);
         }
     }
-
 };
-/*
-int main(){
-    playlist p;
-    p.print();
-    cout<<"---------------1"<<endl;
-    p.make_shuffle();
-    p.print();
-    cout<<"---------------2"<<endl;
-    return 0;
-}
-*/

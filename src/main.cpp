@@ -3,16 +3,14 @@
 #include "logoScrn.hpp"
 #include "screen.hpp"
 int main(void){
-    const int screenWidth = 800;
-    const int screenHeight = 600;
+    const int screenWidth = 900;
+    const int screenHeight = 650;
     InitWindow(screenWidth, screenHeight, "Music Player");
     InitAudioDevice();
     SetTargetFPS(60);
     
     //to add all the music files and making playlist
-    musicFile mf;
-    mf.add_music_file();
-    playlist p;
+    musicFile::add_music_file();
     screen* nextState;
     screen* logoState=new logoScrn();
     screen* mainState=new mainScrn();
@@ -35,11 +33,11 @@ int main(void){
             nextState=logoState;
             break;
         }
-        nextState->display();
 
 
         BeginDrawing();
         ClearBackground(RAYWHITE);
+        nextState->display();
         EndDrawing();
     }
     CloseAudioDevice();
