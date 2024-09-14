@@ -25,7 +25,6 @@ class logoScrn: public screen{
     //static function passed for error "void (mainScrn::*)()" is incompatible with parameter of type "void (*)()"
     static void mainButtonFunc(){
         s=screens::mainscrn;
-        std::cout<<"hello"<<std::endl;
     }
     void display(){
 

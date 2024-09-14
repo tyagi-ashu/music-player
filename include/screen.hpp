@@ -10,5 +10,8 @@ enum class screens{
     logoscrn,
     mainscrn,
     playscrn,
+    songsscrn,
     null
 } s;
+
+playlist p;

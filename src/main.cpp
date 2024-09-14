@@ -15,6 +15,7 @@ int main(void){
     screen* logoState=new logoScrn();
     screen* mainState=new mainScrn();
     screen* playState=new playScrn();
+    screen* songsState=new songsScrn();
     s=screens::logoscrn;
     while (!WindowShouldClose())
     {
@@ -27,6 +28,9 @@ int main(void){
             break;
             case screens:: playscrn:
             nextState=playState;
+            break;
+            case screens::songsscrn:
+            nextState= songsState;
             break;
             case screens:: null:
             std::cout<<"nothing selected"<<std::endl;

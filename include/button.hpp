@@ -12,12 +12,8 @@ class Button{
     Font font;
 
     bool isHovered(Vector2 mousePos){
-        Rectangle rect={position.x,position.y,static_cast<float>(w),static_cast<float>(h)};
-        if(CheckCollisionPointRec(mousePos,rect)){
-            return true;
-        }
-        return false;
-        //return (mousePos.x>x && mousePos.x<x+font_width && mousePos.y>y && mousePos.y<y+font_height);
+
+        return (mousePos.x>position.x && mousePos.x<position.x+w && mousePos.y>position.y && mousePos.y<position.y+h);
     }
     
     public:
