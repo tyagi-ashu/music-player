@@ -4,6 +4,7 @@
 #include <vector>
 #include "musicFile.hpp"
 #include "shuffle.hpp"
+#include "raylib.h"
 //head==>index=0
 
 // doubly circular linked list
@@ -29,9 +30,11 @@ class song{
 
 class playlist: private song{
     private:
-    song* head;
+    //keeping trak of playlist curr playing song
+    song* currsong;
 
     public:
+    song* head;
     int count=0;
     float fontSize=24;
     vector<pair<string,string>> vec;
@@ -39,6 +42,7 @@ class playlist: private song{
     playlist(): song(){
         cout<<"playlist  done"<<endl;
         this->head=NULL;
+        currsong=head;
     }
     // index=-1 insert at end
     //index=0 insert at head
@@ -64,6 +68,7 @@ class playlist: private song{
         else if(insert_in_vec && index==-1){
             vec.push_back(p);
         } 
+        currsong=head;
         count++;
     }
     //dont insert on start and end with this function(not used in this project--for future use)
@@ -81,7 +86,7 @@ class playlist: private song{
         new_song->next=temp->next;
         temp->next = new_song;
         new_song->prev = temp;
-
+        currsong=head;
         count++;
     }
     // remove by index(only for internal use--in future)
@@ -117,6 +122,7 @@ class playlist: private song{
         temp->next=NULL;
         delete temp;
         --count;
+        currsong=head;
         return 1;
     }
     //remove by song_name
@@ -152,20 +158,14 @@ class playlist: private song{
         delete temp;
         --count;
         vec.erase(--it);
+        currsong=head;
         return 1;
     }
-    //not used in program
-    int print(){
-        if(head==NULL){
-            cout<<"empty"<<endl;
-            return 0;
-        }
-        song* temp = head;
-        do{
-            cout<<temp->p.second<<"  "<<temp->p.first<<endl;
-            temp=temp->prev;
-        }while (temp!= head);
-        return 1;
+
+    string get_path(){
+        string path="../resources/music/"+currsong->p.first+"/"+currsong->p.second+".mp3";
+        currsong=currsong->prev;
+        return path;
     }
     void make_shuffle(){
         shuffle shuf(vec);

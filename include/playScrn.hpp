@@ -7,27 +7,18 @@
 
 class playScrn:public screen{
     private:
-    Texture2D texture;
+    
     //needed the pointer because font wasnt loading properly
     Button *mainButton;
-    float font_height=24;
-    float screenHeight;
-    float screenWidth;
-    Font font;
     int song_index=0;
     int capacity=3;
     public:
     playScrn(){
-        screenWidth=GetScreenWidth();
-        screenHeight=GetScreenHeight();
-        texture=LoadTexture("../resources/title.png");
-        font=LoadFontEx("../resources/my-font.ttf",font_height,NULL,0);
         //its not in render() so that it dosent render again and again and again
         mainButton = new Button("back",{50,screenHeight-50},font_height,font);
     }
     ~playScrn(){
         delete mainButton;
-        UnloadTexture(texture);
     }
     //static-- to access this function when there is no instance of this class and 'draw' is called 
     static void mainButtonFunc(){
@@ -35,7 +26,7 @@ class playScrn:public screen{
     }
     void display(){
         int temp_song_index=0;
-        
+        UpdateMusicStream(music);
         DrawTextureV(texture,{0,0},RAYWHITE);
         mainButton->Draw(mainButtonFunc);
         float posX;
@@ -70,11 +61,16 @@ class playScrn:public screen{
                 Vector2 mousePos=GetMousePosition();
                 if(mousePos.x>posX && mousePos.x<posX+font_width && mousePos.y>posY && mousePos.y<posY+font_height){
                     DrawTextEx(font,name,{posX,posY},font_height,0,RED);
-                    if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+                    if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)){
                         p.remove_song_name(name);
                         song_index=0;
                         temp_song_index=0;
                         break;
+                    }
+                    if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+                        string path="../resources/music/"+p.vec[i].first+"/"+p.vec[i].second+".mp3";
+                        music = LoadMusicStream(path.c_str());
+                        PlayMusicStream(music);
                     }
                 }
                 else{

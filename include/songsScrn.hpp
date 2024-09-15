@@ -37,8 +37,8 @@ class songsScrn: public screen{
         s=screens::mainscrn;
     }
     void display(){
+        UpdateMusicStream(music);
         int temp_song_index=0;
-        
         DrawTextureV(texture,{0,0},RAYWHITE);
         mainButton->Draw(mainButtonFunc);
         float posX;
@@ -60,7 +60,7 @@ class songsScrn: public screen{
                 DrawTextEx(font,"A-prev",{screenWidth-200, screenHeight-50},font_height,0,BLACK);
             }
             for(int i =song_index;i<vec_size && i<song_index+capacity;i++){
-                name=TextToLower((vec[i].first).c_str());
+                name=TextToLower((vec[i].second.c_str()));
                 posX=screenWidth/2 - MeasureTextEx(font,name,font_height,0).x/2;
                 posY=font_height+posY+5;
                 font_width=MeasureTextEx(font,name,font_height,0).x;
@@ -70,10 +70,6 @@ class songsScrn: public screen{
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
                         //insert at end
                         p.add_song(vec[i]);
-                        for(auto i:p.vec){
-                            cout<<i.second<<endl;
-                        }
-                        cout<<"---------"<<endl;
                         song_index=0;
                         temp_song_index=0;
                         break;
