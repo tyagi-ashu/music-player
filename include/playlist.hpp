@@ -178,5 +178,7 @@ class playlist: private song{
             //0 for not inserting in vector
             add_song(i,0);
         }
+        //takes you to start of playlist
+        currsong=head;
     }
 };

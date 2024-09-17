@@ -4,14 +4,16 @@
 #include "screen.hpp"
 #include "button.hpp"
 #include "playlist.hpp"
-
+//play prev
+//after shuffle same song goes on unless next is pressed 
 class playerScrn:public screen{
     private:
     Button *mainButton;
     bool playNext=false;
+    bool play=false;
     public:
     playerScrn(){
-        mainButton = new Button("back",{50,screenHeight-50},font_height,font);
+        mainButton = new Button("back",{rectPos+20,screenHeight-10},font_height,font);
     }
     ~playerScrn(){
         delete mainButton;
@@ -21,16 +23,46 @@ class playerScrn:public screen{
     }
     void display(){
         UpdateMusicStream(music);
-        DrawTextureV(texture,{0,0},RAYWHITE);
         mainButton->Draw(mainButtonFunc);
-        DrawTextEx(font,"P-play",{screenWidth-500, screenHeight-200},font_height,0,BLACK);
-        if(IsKeyPressed(KEY_P)){
-            playNext=true;
+        float posY=screenHeight/2+200;
+        Vector2 mousePos=GetMousePosition();
+        float posX=screenWidth/2;
+        float font2_width=MeasureTextEx(font2,"Q",font2_height,0).x;
+        if(mousePos.x>posX && mousePos.x<posX+font2_width && mousePos.y>posY && mousePos.y<posY+font2_height){
+            DrawTextEx(font2,"Q",{posX, posY},font2_height,0,RED);
+            if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && IsMusicStreamPlaying(music)){
+                play=false;
+            }
+            if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && !IsMusicStreamPlaying(music)){
+                play=true;
+            }
         }
-        if(p.head!=NULL && playNext){
+        else{
+            DrawTextEx(font2,"Q",{posX,posY},font2_height,0,BLACK);
+        }
+        posX=screenWidth/2+80;
+        font2_width=MeasureTextEx(font2,"I",font2_height,0).x;
+        if(mousePos.x>posX && mousePos.x<posX+font2_width && mousePos.y>posY && mousePos.y<posY+font2_height){
+            DrawTextEx(font2,"I",{posX, posY},font2_height,0,RED);
+            if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+                playNext=true;
+                play=true;
+            }
+        }
+        else{
+            DrawTextEx(font2,"I",{posX,posY},font2_height,0,BLACK);
+        }
+
+        if(p.head!=NULL && (playNext || !IsMusicReady(music)) && play){
             string path=p.get_path();
             music = LoadMusicStream(path.c_str());
             PlayMusicStream(music);
+        }
+        else if(p.head!=NULL && IsMusicReady(music) && play){
+            ResumeMusicStream(music);
+        }
+        else if(p.head!=NULL && IsMusicReady(music) && !play){
+            PauseMusicStream(music);
         }
         if(GetMusicTimeLength(music)!=0){
             float timePlayed = GetMusicTimePlayed(music)/GetMusicTimeLength(music);
@@ -45,6 +77,7 @@ class playerScrn:public screen{
         }
         else{
             playNext=false;
+            play=false;
         }
 
     }

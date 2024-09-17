@@ -11,7 +11,7 @@ class logoScrn: public screen{
     public:
     logoScrn(){
         //its not in render() so that it dosent render again and again and again
-        mainButton = new Button("LOGO",{400,100},font_height,font);
+        mainButton = new Button("start",{screenWidth/2-24,screenHeight/2+100},font_height,font);
     }
     ~logoScrn(){
         delete mainButton;
@@ -21,8 +21,6 @@ class logoScrn: public screen{
         s=screens::mainscrn;
     }
     void display(){
-
-        DrawTextureV(texture,{0,0},RAYWHITE);
         mainButton->Draw(mainButtonFunc);
     }
 };

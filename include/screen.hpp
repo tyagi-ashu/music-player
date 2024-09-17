@@ -7,18 +7,21 @@ class screen{
     virtual ~screen(){
     };    
     virtual void display(){};
-    float font_height=24;
-    float screenWidth=GetScreenWidth();
-    float screenHeight=GetScreenHeight();
+    float font_height=32;
+    float font2_height=60;
     Font font=LoadFontEx("../resources/my-font.ttf",font_height,NULL,0);
-    Texture2D texture=LoadTexture("../resources/title.png");
+    Font font2=LoadFontEx("../resources/Arrows.ttf",font2_height,NULL,0);
+    float rectPos=40;
+    float screenWidth=GetScreenWidth()-2*rectPos;
+    float screenHeight=GetScreenHeight()-2*rectPos;
 };
 enum class screens{
     logoscrn,
     mainscrn,
     playscrn,
     songsscrn,
-    playerscrn
+    playerscrn,
+    optionscrn
 } s;
 
 playlist p;

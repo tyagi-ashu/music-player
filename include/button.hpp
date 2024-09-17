@@ -33,13 +33,29 @@ class Button{
     }
     void Draw(void (*on_click)()){
         //checking hovering
-        DrawRectangle(position.x,position.y,w,h,(isHovered(GetMousePosition()) ? BLACK : RAYWHITE));
-        DrawTextEx(font,name.c_str(),position,h,0,(isHovered(GetMousePosition()) ? RED : YELLOW));
+        DrawRectangle(position.x,position.y,w,h,RAYWHITE);   //try removing
         if(isHovered(GetMousePosition())){
+            DrawTextEx(font,TextToUpper(name.c_str()),position,h,0,BLACK);
             if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
                 PlaySound(selectAsSound);
                 on_click();
             }
+        }
+        else{
+            DrawTextEx(font,name.c_str(),position,h,0,BLACK);
+        }
+    }
+    void Draw2(void (*on_click)()){
+        DrawRectangle(position.x,position.y,w,h,RAYWHITE);
+        if(isHovered(GetMousePosition())){
+            DrawTextEx(font,name.c_str(),position,h,0,GRAY);
+            if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+                PlaySound(selectAsSound);
+                on_click();
+            }
+        }
+        else{
+            DrawTextEx(font,name.c_str(),position,h,0,BLACK);
         }
     }
 };
