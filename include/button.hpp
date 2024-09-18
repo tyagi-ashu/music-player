@@ -15,7 +15,6 @@ class Button{
 
         return (mousePos.x>position.x && mousePos.x<position.x+w && mousePos.y>position.y && mousePos.y<position.y+h);
     }
-    
     public:
     Button(std::string n,Vector2 pos,float fh,Font f){
         //font height=fh
@@ -26,29 +25,16 @@ class Button{
         this->h=fh;
         Wave selectSound=LoadWave("../resources/button-pressed.wav");
         selectAsSound=LoadSoundFromWave(selectSound);
+        SetSoundVolume(selectAsSound,0.3);
         UnloadWave(selectSound);
     }
     ~Button(){
         UnloadFont(font);
     }
     void Draw(void (*on_click)()){
-        //checking hovering
-        DrawRectangle(position.x,position.y,w,h,RAYWHITE);   //try removing
-        if(isHovered(GetMousePosition())){
-            DrawTextEx(font,TextToUpper(name.c_str()),position,h,0,BLACK);
-            if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-                PlaySound(selectAsSound);
-                on_click();
-            }
-        }
-        else{
-            DrawTextEx(font,name.c_str(),position,h,0,BLACK);
-        }
-    }
-    void Draw2(void (*on_click)()){
         DrawRectangle(position.x,position.y,w,h,RAYWHITE);
         if(isHovered(GetMousePosition())){
-            DrawTextEx(font,name.c_str(),position,h,0,GRAY);
+            DrawTextEx(font,TextToUpper(name.c_str()),position,h,0,BLACK);
             if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
                 PlaySound(selectAsSound);
                 on_click();

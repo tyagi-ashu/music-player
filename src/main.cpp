@@ -22,7 +22,6 @@ int main(void){
     screen* playState=new playScrn();
     screen* songsState=new songsScrn();
     screen* playerState=new playerScrn();
-    screen* optionState= new optionScrn();
     s=screens::logoscrn;
     while (!WindowShouldClose())
     {
@@ -41,9 +40,6 @@ int main(void){
             break;
             case screens:: playerscrn:
             nextState=playerState;
-            break;
-            case screens:: optionscrn:
-            nextState=optionState;
             break;
             default:
             nextState=logoState;

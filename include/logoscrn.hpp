@@ -8,6 +8,7 @@ class logoScrn: public screen{
     private:
     //needed the pointer because font wasnt loading properly
     Button *mainButton;
+
     public:
     logoScrn(){
         //its not in render() so that it dosent render again and again and again
@@ -20,7 +21,9 @@ class logoScrn: public screen{
     static void mainButtonFunc(){
         s=screens::mainscrn;
     }
+
     void display(){
         mainButton->Draw(mainButtonFunc);
+        //make a struct of these 4 variables in this scrn
     }
 };

@@ -21,7 +21,6 @@ enum class screens{
     playscrn,
     songsscrn,
     playerscrn,
-    optionscrn
 } s;
 
 playlist p;
