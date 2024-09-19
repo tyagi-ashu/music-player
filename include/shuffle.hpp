@@ -7,7 +7,7 @@
 #include <cstdlib>    //rand
 #include <cmath>     //round
 //code is messy because i didnt clean up after main() function to struct conversion
-//replaced int with size_t where needed
+
 using namespace std;
 
 //https://keyj.emphy.de/balanced-shuffle/
@@ -105,9 +105,8 @@ typedef struct shuffle{
                     }
                 }
                 n=n-r;
-
-                //add random offset now
             }
+            //add random offset now
             if(temp_i.size()){
                 int random_index=0+(rand() % max_n);
                 string temp_s=temp_i[0];

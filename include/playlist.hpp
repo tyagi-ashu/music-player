@@ -30,10 +30,9 @@ class song{
 class playlist: private song{
     private:
     //keeping trak of playlist curr playing song
-    song* currsong;
-
-    public:
     song* head;
+    public:
+    song* currsong;
     int count=0;
     float fontSize=24;
     vector<pair<string,string>> vec;
@@ -146,7 +145,7 @@ class playlist: private song{
             if(temp->p.second==name) break;
             temp=temp->prev;
             it++;
-        }while (temp!= head && it>=vec.end());
+        }while (temp!= head && it<=vec.end());
 
         if(it==vec.begin())    //delete at first position
             head=temp->prev;
@@ -156,17 +155,29 @@ class playlist: private song{
         temp->next=NULL;
         delete temp;
         --count;
-        vec.erase(--it);
+        vec.erase(it);
         currsong=head;
         return 1;
     }
 
-    string get_path(){
-        string path="../resources/music/"+currsong->p.first+"/"+currsong->p.second+".mp3";
-        currsong=currsong->prev;
+    string get_path(bool playNext){
+        string path;
+        if(playNext){
+            path="../resources/music/"+currsong->p.first+"/"+currsong->p.second+".mp3";
+            currsong=currsong->prev;
+        }
+        //playPrev=true
+        else{
+            path="../resources/music/"+currsong->next->next->p.first+"/"+currsong->next->next->p.second+".mp3";
+            currsong=currsong->next;
+        }
+        
         return path;
     }
+    //takes you to start of playlist after shuffle
     void make_shuffle(){
+        //current playing song
+        song* prevsong=currsong->next;
         shuffle shuf(vec);
         vec.clear();
         vec=shuf.output();
@@ -177,7 +188,12 @@ class playlist: private song{
             //0 for not inserting in vector
             add_song(i,0);
         }
-        //takes you to start of playlist
-        currsong=head;
+        //is start of playlist and current playing song is the same
+         if(prevsong->p==currsong->p){
+            currsong=head->prev;
+        }
+        else{
+            currsong=head;
+        }
     }
 };

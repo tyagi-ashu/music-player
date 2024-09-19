@@ -2,9 +2,10 @@
 #include "raylib.h"
 class screen{
     public:
-    //virtual-- so that while destructing diff screens using this class, no undefined behaviour dont occur
-    //unload font and texture here
+    //virtual-- destructing screens using this class(for future purposes)
     virtual ~screen(){
+        UnloadFont(font);
+        UnloadFont(font2);
     };    
     virtual void display(){};
     float font_height=32;
@@ -14,6 +15,7 @@ class screen{
     float rectPos=40;
     float screenWidth=GetScreenWidth()-2*rectPos;
     float screenHeight=GetScreenHeight()-2*rectPos;
+    
 };
 enum class screens{
     logoscrn,
@@ -25,3 +27,5 @@ enum class screens{
 
 playlist p;
 Music music;
+Music music2;
+bool isClosed=false;

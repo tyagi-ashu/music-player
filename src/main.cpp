@@ -2,9 +2,10 @@
 #include "playlist.hpp"
 #include "logoScrn.hpp"
 #include "screen.hpp"
+//TODO:
+//add playlist going in backward direction button(maybe)
+//add searching songs function
 
-//add option scrn
-//add exit scrn
 int main(void){
     const int screenWidth = 900;
     const int screenHeight = 650;
@@ -23,8 +24,9 @@ int main(void){
     screen* songsState=new songsScrn();
     screen* playerState=new playerScrn();
     s=screens::logoscrn;
-    while (!WindowShouldClose())
+    while (!isClosed)
     {
+        if (IsKeyPressed(KEY_ESCAPE) || WindowShouldClose()) isClosed = true;
         switch(s){
             case screens::logoscrn:
             nextState=logoState;
@@ -55,6 +57,8 @@ int main(void){
         DrawTextureV(texture,{rectPos-5,rectPos-5},RAYWHITE);
         EndDrawing();
     }
+    UnloadMusicStream(music);
+    UnloadTexture(texture);
     CloseAudioDevice();
     CloseWindow();
 

@@ -3,34 +3,38 @@
 #include "mainScrn.hpp"
 #include "screen.hpp"
 #include "button.hpp"
-//remove button and add welcome fadeing text and a timer to go to main screen
+
 class songsScrn: public screen{
     private:
-    //needed the pointer because font wasnt loading properly
+
     Button *mainButton;
     int song_index=0;
     int capacity=7;
     vector<pair<string,string>> vec;
     int vec_size;
     bool musicPlaying=false;
+    bool play_interrupted=false;
     public:
     songsScrn(){
         vec=musicFile::read_music_files();
         vec_size=vec.size();
-        //its not in render() so that it dosent render again and again and again
+
         mainButton = new Button("back",{rectPos+20,screenHeight-10},font_height,font);
     }
     ~songsScrn(){
         delete mainButton;
     }
-    //static function passed for error "void (mainScrn::*)()" is incompatible with parameter of type "void (*)()"
+
     static void mainButtonFunc(){
+
         s=screens::mainscrn;
     }
     void display(){
         UpdateMusicStream(music);
         int temp_song_index=0;
-        mainButton->Draw(mainButtonFunc);
+        if(!play_interrupted){
+            mainButton->Draw(mainButtonFunc);
+        }
         float posX;
         float posY=rectPos+100;
         const char* name;
@@ -65,6 +69,11 @@ class songsScrn: public screen{
                         break;
                     }
                     if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)){
+                        if(IsMusicStreamPlaying(music)){
+                            play_interrupted=true;
+                            music2=music;
+                            PauseMusicStream(music);
+                        }
                         string path="../resources/music/"+vec[i].first+"/"+vec[i].second+".mp3";
                         music = LoadMusicStream(path.c_str());
                         PlayMusicStream(music);
@@ -78,11 +87,17 @@ class songsScrn: public screen{
             }
             //plays 10% of music for trial purposes
             if(musicPlaying){
+                DrawTextEx(font,"E-end",{screenWidth-450, screenHeight-10},font_height,0,BLACK);
                 float timePlayed = GetMusicTimePlayed(music)/GetMusicTimeLength(music);
                 if (timePlayed > 0.10f) timePlayed = 0.10f;
-                if(timePlayed==0.10f){
+                if(timePlayed==0.10f || IsKeyPressed(KEY_E)){
                     StopMusicStream(music);
                     musicPlaying=false;
+                    if(play_interrupted){
+                        music=music2;
+                        ResumeMusicStream(music);
+                        play_interrupted=false;
+                    }
                 }
             }
             if(song_index<vec_size && song_index+capacity<vec_size && IsKeyPressed(KEY_D)){

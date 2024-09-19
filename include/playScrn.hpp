@@ -32,6 +32,7 @@ class playScrn:public screen{
         float font_width;
         float posY=rectPos+200;
         const char* name;
+        Vector2 mousePos=GetMousePosition();
         DrawTextEx(font,"playlist",{screenWidth/2 - 40,posY},font_height,0,BLACK);
         posY=posY+20;
         DrawText("____________________________________",screenWidth/2-300,posY,font_height,BLACK);
@@ -58,11 +59,10 @@ class playScrn:public screen{
                 posX=screenWidth/2 - MeasureTextEx(font,name,font_height,0).x/2 + rectPos;
                 posY=font_height+posY+5;
                 font_width=MeasureTextEx(font,name,font_height,0).x;
-                Vector2 mousePos=GetMousePosition();
                 if(mousePos.x>posX && mousePos.x<posX+font_width && mousePos.y>posY && mousePos.y<posY+font_height){
                     DrawTextEx(font,name,{posX,posY},font_height,0,RED);
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-                        p.remove_song_name(name);
+                        p.remove_song_name(p.vec[i].second);
                         song_index=0;
                         temp_song_index=0;
                         break;
