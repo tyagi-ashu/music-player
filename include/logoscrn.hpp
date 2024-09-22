@@ -10,7 +10,7 @@ class logoScrn: public screen{
     struct rectangles{
         int flip=0;
         float posX;
-        float posY=GetScreenHeight()/2;
+        float posY=GetScreenHeight()/2+40;
         float width=50;float height=0;
     }rec0,rec1,rec2,rec3,rec4,rec5,rec6,rec7,rec8;
 

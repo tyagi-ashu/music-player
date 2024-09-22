@@ -1,13 +1,14 @@
 #pragma once
-#include <iostream>
 #include <string>
 #include <vector>
 #include "musicFile.hpp"
 #include "shuffle.hpp"
 //head==>index=0
-
+//next song= prev*
+//prev song= next*
 // doubly circular linked list
 using namespace std;
+
 class song{
     public:
     pair<string,string> p;
@@ -160,25 +161,31 @@ class playlist: private song{
         return 1;
     }
 
-    string get_path(bool playNext){
+    string get_path(bool playNext,bool changeCurr){
         string path;
         if(playNext){
             path="../resources/music/"+currsong->p.first+"/"+currsong->p.second+".mp3";
+            //this is for next song...
             currsong=currsong->prev;
         }
         //playPrev=true
         else{
-            path="../resources/music/"+currsong->next->next->p.first+"/"+currsong->next->next->p.second+".mp3";
-            currsong=currsong->next;
+            if(changeCurr){
+                path="../resources/music/"+currsong->next->p.first+"/"+currsong->next->p.second+".mp3";              
+            }
+            else{
+                path="../resources/music/"+currsong->next->next->p.first+"/"+currsong->next->next->p.second+".mp3";
+                currsong=currsong->next;
+            }
         }
         
         return path;
     }
     //takes you to start of playlist after shuffle
-    void make_shuffle(){
+    pair<string,string> make_shuffle(){
         //current playing song
         song* prevsong=currsong->next;
-        shuffle shuf(vec);
+        struct shuffle shuf(vec);
         vec.clear();
         vec=shuf.output();
         for(int i=count;i>0;i--){
@@ -189,11 +196,12 @@ class playlist: private song{
             add_song(i,0);
         }
         //is start of playlist and current playing song is the same
-         if(prevsong->p==currsong->p){
+        if(prevsong->p==currsong->p){
             currsong=head->prev;
         }
         else{
             currsong=head;
         }
+        return prevsong->p;
     }
 };

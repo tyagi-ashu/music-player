@@ -12,6 +12,7 @@ class playScrn:public screen{
     Button *mainButton;
     int song_index=0;
     int capacity=4;
+    
     public:
     playScrn(){
         //its not in render() so that it dosent render again and again and again
@@ -50,7 +51,8 @@ class playScrn:public screen{
             }
             DrawTextEx(font,"S-shuffle",{screenWidth-450, screenHeight-10},font_height,0,BLACK);
             if(IsKeyPressed(KEY_S)){
-                p.make_shuffle();
+                songWhileShuffle=p.make_shuffle();
+                changeCurr=true;
                 song_index=0;
                 temp_song_index=0;
             }

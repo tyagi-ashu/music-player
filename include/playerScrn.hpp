@@ -9,12 +9,12 @@
 class playerScrn:public screen{
     private:
     Button *mainButton;
-
     bool playNext=false;
     bool playPrev=false;
     float volume=0.5;
     float second=0;
     bool play=false;
+
     struct bar{
         float length_of_bar;
         Rectangle rect1;
@@ -144,6 +144,9 @@ class playerScrn:public screen{
                 playPrev=true;
                 playNext=false;
                 play=true;
+                if(changeCurr){
+                    changeCurr=false;
+                }
             }
         }
         else{
@@ -173,6 +176,9 @@ class playerScrn:public screen{
                 playNext=true;
                 playPrev=false;
                 play=true;
+                if(changeCurr){
+                    changeCurr=false;
+                }
             }
         }
         else{
@@ -182,10 +188,15 @@ class playerScrn:public screen{
         if(p.count!=0 && play && ((playPrev||playNext) || !IsMusicReady(music))){
             string path;
             if(playNext || (play && !playNext && !playPrev)){
-                path=p.get_path(true);
+                path=p.get_path(true,false);
             }
             else if(playPrev){
-                path=p.get_path(false);
+                if(!IsMusicReady(music)){
+                    path=p.get_path(false,true);
+                }
+                else{
+                    path=p.get_path(false,false);
+                }
             }
             music = LoadMusicStream(path.c_str());
             SetMusicVolume(music,volume);
@@ -201,7 +212,14 @@ class playerScrn:public screen{
         if(IsMusicReady(music)){
             second=GetMusicTimePlayed(music);
             addBar(seekBar,mousePos,volume,second);
-            const char* text=TextToLower((p.currsong->next->p.second).c_str());
+            const char* text;
+            if(changeCurr){
+            text=TextToLower((songWhileShuffle.second).c_str());
+            }
+            else{
+            text=TextToLower((p.currsong->next->p.second).c_str());
+            }
+
             DrawTextEx(font,text,{screenWidth/2 - MeasureTextEx(font,text,font_height,0).x/2 + rectPos,screenHeight/2-120},font_height,0,GRAY);
         }
         if(GetMusicTimeLength(music)!=0){
@@ -211,6 +229,9 @@ class playerScrn:public screen{
                 playNext=true;
                 playPrev=false;
                 StopMusicStream(music);
+                if(changeCurr){
+                    changeCurr=false;
+                }
             }
             else{
                 playNext=false;

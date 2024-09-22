@@ -29,3 +29,6 @@ playlist p;
 Music music;
 Music music2;
 bool isClosed=false;
+//this is for if you press prev button after shuffle
+bool changeCurr=false;
+pair<string,string> songWhileShuffle;

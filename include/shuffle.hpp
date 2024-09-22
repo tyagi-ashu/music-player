@@ -12,7 +12,7 @@ using namespace std;
 
 //https://keyj.emphy.de/balanced-shuffle/
 
-typedef struct shuffle{
+struct shuffle{
     //.first= artist  .second= song_name
     vector<pair<string,string>> songs;
     //mapping of each artist to their song list
@@ -140,4 +140,4 @@ typedef struct shuffle{
         }
         return shuff_songs;
     }
-}shuffle;
+};
